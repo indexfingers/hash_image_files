@@ -45,15 +45,30 @@ def get_uuids(files,valid):
 
 
 
+def kill_invalid(in_lst,valid):
+    out_lst = []
+    for i,v in enumerate(valid):
+        if v is True:
+            out_lst.append(in_lst[i])
+    return out_lst
+
+
 def main(rt,dst):
     files = list_files(rt)
     valid,types = is_valid_image(files)
     uuids = get_uuids(files,valid)
+    # kill anything that's not an image
+    uuids = kill_invalid(uuids,valid)
+    files = kill_invalid(files,valid)
+    types = kill_invalid(types,valid)
     import csv
     with open(dst, 'w', newline='') as file:
         writer = csv.writer(file)
         for i,f in enumerate(files):
-            writer.writerow([f, uuids[i], types[i]])
+            try:
+                writer.writerow([f, uuids[i], types[i]])
+            except:
+                print('failed to write {}'.format(f))
     print('uuids saved to {}'.format(dst))
             
             
