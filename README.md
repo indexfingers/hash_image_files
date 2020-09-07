@@ -6,7 +6,7 @@ Installation:
 pip install requirements.txt
 
 Usage:
-python get_image_uuids.py --rt <directory containing image files> --dst <output filename>.csv
+python get_image_uuids.py --rt *directory containing image files* --dst *output filename*.csv
   
 Example:
 python get_image_uuids.py --rt /home/Ben/Pictures/  --dst image_uuids.csv
