@@ -4,6 +4,7 @@ def list_files(path):
     print('finding all files under {}'.format(path))
     files =  [f for f in glob.glob(path + "**", recursive=True) if not os.path.isdir(f)]
     print('found {} files'.format(len(files)))
+    
     return files
 
 
