@@ -45,6 +45,13 @@ def get_uuids(files,valid):
     return uuids
 
 
+def grab_files(filename):
+    print('getting files specified in {}'.format(filename))
+    with open(filename) as f:
+        lines = [line.rstrip() for line in f]
+    print('got {} files'.format(len(lines)))
+    return lines
+
 
 def kill_invalid(in_lst,valid):
     out_lst = []
@@ -54,9 +61,14 @@ def kill_invalid(in_lst,valid):
     return out_lst
 
 
-def main(rt,dst):
-    files = list_files(rt)
-    valid,types = is_valid_image(files)
+def main(rt,dst,files_file):
+    if files_file is not None:
+        files = grab_files(files_file)
+        valid = [True for f in files]
+        types = ['Not checked' for f in files]
+    else:   
+        files = list_files(rt)
+        valid,types = is_valid_image(files)
     uuids = get_uuids(files,valid)
     # kill anything that's not an image
     uuids = kill_invalid(uuids,valid)
@@ -78,7 +90,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--rt')
     parser.add_argument('--dst')
+    parser.add_argument('--file')
     args = parser.parse_args()
-    print('got {} and {}'.format(args.rt,args.dst))
-    main(args.rt,args.dst)
+    print('got {}, {} and {}'.format(args.rt,args.file, args.dst))
+    main(args.rt,args.dst,args.file)
 
